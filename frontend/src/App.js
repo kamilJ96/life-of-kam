@@ -15,6 +15,7 @@ class App extends PureComponent {
   render() {
     return (
       <div className="kam-app">
+        <Navbar />
         <div className="kam-body">
           <Intro />
         </div>
