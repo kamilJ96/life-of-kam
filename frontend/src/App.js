@@ -3,6 +3,7 @@ import Navbar from './Components/Navbar';
 import Intro from './Components/Intro';
 
 import './Styles/kam.less';
+import Sentiment from './Components/Sentiment';
 
 class App extends PureComponent {
   constructor(props) {
@@ -17,7 +18,8 @@ class App extends PureComponent {
       <div className="kam-app">
         <Navbar />
         <div className="kam-body">
-          <Intro />
+          {/* <Intro /> */}
+          <Sentiment />
         </div>
       </div>
     );

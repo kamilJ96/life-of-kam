@@ -1,8 +1,12 @@
 @import (css) url(https://fonts.googleapis.com/css?family=Noto+Sans+JP:300&display=swap);
 
-@prefix     : kam-;
-@bg-colour  : #0a0a0a;
-@text-colour: #dedede;
+@prefix         : kam-;
+@bg-colour      : #0a0a0a;
+@text-colour    : #dedede;
+@navbar-height  : 50px;
+@title-font-size: 1.6em;
+@kam-green      : #24dd0b93;
+@kam-red        : #cf070786;
 
 body {
   background-color: @bg-colour;
@@ -12,13 +16,56 @@ body {
   margin          : 0;
 }
 
+input,
+button {
+  background   : none;
+  color        : @text-colour;
+  height       : 25px;
+  border       : 1px solid #004cbe71;
+  border-radius: 1px;
+  transition   : border 0.3s linear;
+
+  &:hover,
+  &:focus {
+    border : 1px solid #0073ff9f;
+    outline: none;
+  }
+}
+
 .@{prefix} {
   &app {
-    height: 100vh;
+    height  : 100vh;
+    overflow: hidden;
   }
 
   &body {
-    height: 100%;
+    height    : calc(100% - @navbar-height);
+    margin-top: @navbar-height;
+  }
+}
+
+@navbar: ~'.@{prefix}navbar';
+
+@{navbar} {
+  position             : absolute;
+  top                  : 0;
+  left                 : 0;
+  width                : 100%;
+  height               : @navbar-height;
+  align-items          : center;
+  justify-content      : center;
+  font-size            : 1.4em;
+  text-align           : center;
+  display              : grid;
+  grid-template-rows   : 1fr max-content;
+  grid-template-columns: 1fr;
+
+  &-line {
+    width     : 100%;
+    height    : 2px;
+    opacity   : 0.5;
+    animation : rainbow 20s infinite alternate-reverse;
+    transition: all 20s linear;
   }
 }
 
@@ -80,30 +127,7 @@ body {
   }
 }
 
-@navbar: ~'.@{prefix}navbar';
 
-@{navbar} {
-  position             : absolute;
-  top                  : 0;
-  left                 : 0;
-  width                : 100%;
-  height               : 50px;
-  align-items          : center;
-  justify-content      : center;
-  font-size            : 1.4em;
-  text-align           : center;
-  display              : grid;
-  grid-template-rows   : 1fr max-content;
-  grid-template-columns: 1fr;
-
-  &-line {
-    width     : 100%;
-    height    : 2px;
-    opacity   : 0.5;
-    animation : rainbow 20s infinite alternate-reverse;
-    transition: all 20s linear;
-  }
-}
 
 @keyframes rainbow {
   0% {
@@ -134,5 +158,129 @@ body {
   100% {
     background-color: rgb(255, 0, 0);
     box-shadow      : 0 0 10px 1px rgb(255, 0, 0);
+  }
+}
+
+@sentiment: ~'.@{prefix}sentiment';
+
+@{sentiment} {
+  display : grid;
+  padding : 10px;
+  grid-gap: 10px;
+
+  &-title {
+    text-align: center;
+    font-size : @title-font-size;
+  }
+
+  &-body {
+    display   : grid;
+    grid-gap  : 10px;
+    padding   : 10px;
+    background: #000000f2;
+
+    &-inputs {
+      display: grid;
+
+      &-text {
+        display : grid;
+        grid-gap: 5px;
+      }
+
+      &-input {
+        display              : grid;
+        grid-template-columns: 150px 1fr 100px;
+        margin-top           : 10px;
+
+        >input {
+          background  : transparent;
+          padding     : 0 10px;
+          margin-right: 10px;
+          height      : 23px;
+
+
+          &.valid {
+            border: 1px solid #16be0071;
+
+            &:hover,
+            &:focus {
+              border: 1px solid @kam-green;
+            }
+          }
+
+          &.invalid {
+            border: 1px solid #be000071;
+
+            &:hover,
+            &:focus {
+              border: 1px solid @kam-red
+            }
+          }
+        }
+
+        &-cont {
+          width : 100px;
+          cursor: pointer;
+
+          &:hover {
+            background-color: @bg-colour;
+          }
+        }
+      }
+    }
+
+    &-cont {
+      height         : 30px;
+      margin-top     : 10px;
+      display        : grid;
+      justify-content: right;
+
+      >svg {
+        height: 100%;
+      }
+    }
+
+    &-errors {
+      font-size : 14px;
+      text-align: center;
+
+      &-err {
+        animation    : flashError 3s infinite alternate;
+        margin-bottom: 2px;
+      }
+    }
+
+    &-result {
+      &-score {
+        display              : grid;
+        grid-template-columns: 150px 1fr;
+
+        .sentiment {
+          color: #018bd3;
+
+          &.positive {
+            color: @kam-green;
+          }
+
+          &.negative {
+            color: @kam-red;
+          }
+        }
+      }
+    }
+  }
+}
+
+@keyframes flashError {
+  0% {
+    background-color: rgba(218, 24, 24, 0.63);
+  }
+
+  50% {
+    background-color: rgba(126, 0, 0, 0.644);
+  }
+
+  100% {
+    background-color: rgba(218, 24, 24, 0.63);
   }
 }
